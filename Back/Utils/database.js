@@ -1,0 +1,10 @@
+const mongoose = require('mongoose')
+const logger = require('./logger').logger
+require('dotenv').config()
+
+mongoose.connection.on('connected', () => logger.pino.info('connected to the database'))
+mongoose.connection.on('open', () => logger.pino.info('connection open to the database'))
+mongoose.connection.on('disconnected', () => logger.pino.info('Disconnected to the database'))
+mongoose.connection.on('reconnected', () => logger.pino.info('Reconnected to the database'))
+mongoose.connection.on('close', () => logger.pino.info('connection to the database is close'))
+mongoose.connect(`${process.env.URL_DATABASE}:${process.env.PORT_BDD}/${process.env.npm_lifecycle_event === 'test' ? "TESTING-BEE-QUEUE":"TESTING-BEE-QUEUE"}`)
